@@ -30,4 +30,6 @@ const Input = React.forwardRef(({ label, name, labelClass, variant, placeholder,
     </>
 });
 
+Input.displayName = 'Input';
+
 export default Input;
