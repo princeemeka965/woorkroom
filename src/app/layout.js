@@ -2,6 +2,8 @@
 
 import { Nunito_Sans } from "next/font/google";
 import "./globals.css";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from "react-redux";
 import store from "@/store";
 
@@ -15,10 +17,26 @@ const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <title>{ metadata.title }</title>
+      <head>
+        <title>{metadata.title}</title>
+        <meta name="description" content={metadata.description} />
+        <link rel="icon" href="/logo.png" />
+      </head>
       <body className={inter.className}>
         <Provider store={store}>
           {children}
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar
+            newestOnTop={false}
+            closeOnClick={false}
+            rtl={false}
+            pauseOnFocusLoss
+            draggable={false}
+            pauseOnHover
+            theme="colored"
+          />
         </Provider>
       </body>
     </html>

@@ -1,16 +1,27 @@
 "use client";
 
-import CheckBox from "@/components/CheckBox";
 import Input from "@/components/Input";
 import Image from "next/image";
 import { Button } from "@material-tailwind/react";
-import { useState } from "react";
+import { useForm, Controller } from 'react-hook-form';
 import Logo from "@/assets/logo.png";
 import Illustration from "@/assets/Illustration.png";
+import { useState } from "react";
 
 export default function Home() {
-  const [errorMessage, setErorrMessage] = useState(false);
-  const [disabled, setDisabled] = useState(false);
+  const { control, handleSubmit } = useForm();
+  const [errorEmail, setEmailError] = useState(false);
+  const [errorPassword, setPasswordError] = useState(false);
+
+  const onSubmit = (data) => {
+    if (data.email === '') {
+      setEmailError(true);
+    }
+
+    if (data.email === '') {
+      setPasswordError(true);
+    }
+  }
 
   return (
     <div className="w-full max-h-screen flex">
@@ -33,29 +44,40 @@ export default function Home() {
           </div>
         </div>
       </div>
-
-      <div className="w-3/5 h-screen px-4 py-10 flex flex-col justify-center">
+      <form onSubmit={handleSubmit(onSubmit)} className="w-3/5 h-screen px-4 py-10 flex flex-col justify-center">
         <div className="w-full flex justify-center">
           <div className="w-1/2 flex flex-col gap-8 py-6">
             <p className="text-xl font-bold text-center my-3">Sign In to Woorkroom</p>
-            <Input
-              variant="w-full"
-              type="email"
-              placeholder="youremail@gmail.com"
-              label="Email Address"
-              labelClass="text-woorkDGrey font-bold"
-              errorMessage={errorMessage}
-              disabled={false}
+            <Controller
+              name="email"
+              control={control}
+              defaultValue=""
+              render={({ field }) => <Input
+                {...field}
+                name="email"
+                variant="w-full"
+                type="email"
+                placeholder="youremail@gmail.com"
+                label="Email Address"
+                labelClass="text-woorkDGrey font-bold"
+                errors={errorEmail}
+              />}
             />
 
-            <Input
-              variant="'w-full'"
-              type="password"
-              placeholder="Password"
-              label="Password"
-              labelClass="text-woorkDGrey font-bold"
-              errorMessage={errorMessage}
-              disabled={false}
+            <Controller
+              name="password"
+              control={control}
+              defaultValue=""
+              render={({ field }) => <Input
+                {...field}
+                name="password"
+                variant="'w-full'"
+                type="password"
+                placeholder="Password"
+                label="Password"
+                labelClass="text-woorkDGrey font-bold"
+                errors={errorPassword}
+              />}
             />
 
             <div className="flex w-full justify-between items-center">
@@ -70,6 +92,7 @@ export default function Home() {
             <div className="w-full flex justify-center">
               <div className="w-1/2 flex flex-col gap-6">
                 <Button className="bg-woorkBlue p-3 rounded-md"
+                  type="submit"
                 >
                   Sign In
                 </Button>
@@ -78,7 +101,7 @@ export default function Home() {
             </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 }
