@@ -1,32 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    artiste: {},
-    tracks: [],
-    track: {},
-    audioPlayer: false,
+    user: {},
 };
 
 export const userDataSlice = createSlice({
     name: "userDataSlice",
     initialState,
     reducers: {
-        SET_ARTISTE_DATA: (state, action) => {
-            state.artiste = action.payload;
-        },
-
-        SET_ARTISTE_TRACKS: (state, action) => {
-            state.tracks = action.payload;
-        },
-
-        SET_PLAY_TRACK: (state, action) => {
-            state.track = action.payload;
-            state.audioPlayer = Object.keys(action.payload).length > 0 ? true : false;
+        SET_USER_DATA: (state, action) => {
+            state.user = action.payload;
         },
     },
 });
 
-export const { SET_ARTISTE_DATA, SET_ARTISTE_TRACKS, SET_PLAY_TRACK } =
+export const { SET_USER_DATA } =
     userDataSlice.actions;
 
 export default userDataSlice.reducer;

@@ -1,12 +1,11 @@
 "use client";
 
 import Input from "@/components/Input";
-import Image from "next/image";
 import { Button } from "@material-tailwind/react";
 import { useForm, Controller } from 'react-hook-form';
-import Logo from "@/assets/logo.png";
-import Illustration from "@/assets/Illustration.png";
 import { useState } from "react";
+import Link from "next/link";
+import AuthLayout from "@/components/AuthLayout";
 
 export default function Home() {
   const { control, handleSubmit } = useForm();
@@ -17,33 +16,21 @@ export default function Home() {
     if (data.email === '') {
       setEmailError(true);
     }
+    else {
+      setEmailError(false)
+    }
 
-    if (data.email === '') {
+    if (data.password === '') {
       setPasswordError(true);
+    }
+    else {
+      setPasswordError(false)
     }
   }
 
   return (
     <div className="w-full max-h-screen flex">
-      <div className="w-2/5 h-screen bg-woorkBlue px-4 flex flex-col justify-center">
-        <div className="w-full flex justify-center">
-          <div className="w-4/5 flex flex-col gap-12">
-            <div className="flex gap-6">
-              <Image src={Logo} width={50} height={50} alt="logo" priority />
-              <p className="text-white text-3xl flex flex-col justify-center font-bold">Woorkroom</p>
-            </div>
-
-            <p className="text-4xl text-white font-bold leading-snug">
-              Your place to work <br />
-              Plan. Create. Control.
-            </p>
-
-            <div className="flex pb-10">
-              <Image src={Illustration} width={500} height={373} alt="illustration" priority />
-            </div>
-          </div>
-        </div>
-      </div>
+      <AuthLayout />
       <form onSubmit={handleSubmit(onSubmit)} className="w-3/5 h-screen px-4 py-10 flex flex-col justify-center">
         <div className="w-full flex justify-center">
           <div className="w-1/2 flex flex-col gap-8 py-6">
@@ -89,16 +76,22 @@ export default function Home() {
               </div>
             </div>
 
-            <div className="w-full flex justify-center">
-              <div className="w-1/2 flex flex-col gap-6">
-                <Button className="bg-woorkBlue p-3 rounded-md"
+            <div className="w-full flex flex-col gap-5">
+              <div className="w-full flex justify-center">
+                <Button className="bg-woorkBlue p-3 w-1/2 rounded-md"
                   type="submit"
                 >
                   Sign In
                 </Button>
-                <p className="text-base font-semibold text-woorkBlue text-center cursor-pointer">Don’t have an account?</p>
+              </div>
+              <div className="flex justify-end w-full gap-1">
+                <p className="text-base">Don't have an account?</p>
+                <Link href={'/register'} className="text-woorkBlue font-semibold text-base text-center cursor-pointer">
+                  Sign up
+                </Link>
               </div>
             </div>
+
           </div>
         </div>
       </form>
