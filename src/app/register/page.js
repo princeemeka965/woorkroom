@@ -10,6 +10,7 @@ import { validateEmail } from "@/services/api";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { SET_USER_DATA } from "@/reducers/usersSlice";
+import { useRouter } from "next/navigation";
 
 export default function Register() {
     const { control, handleSubmit } = useForm();
@@ -18,6 +19,8 @@ export default function Register() {
     const [errorPassword, setPasswordError] = useState(false);
 
     const dispatch = useDispatch();
+
+    const router = useRouter();
 
     const onSubmit = async (data) => {
         if (data.fullNames === '') {
@@ -43,11 +46,12 @@ export default function Register() {
 
         if (data.fullNames !== '' && data.email !== "" && data.password !== "") {
             const result = await validateEmail({ email: data.email });
-            const payload = { name: data.fullNames, email: data.email, password: data.password };
             toast.success(result.message);
 
             if (result.message) {
+                const payload = { name: data.fullNames, email: data.email, password: data.password };
                 dispatch(SET_USER_DATA(payload));
+                router.push('/register/verify-account')
             }
         }
     }
