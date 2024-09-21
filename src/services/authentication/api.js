@@ -26,3 +26,12 @@ export const createAccount = async (payload) => {
         return error
     }
 };
+
+export const loginAccount = async (payload) => {
+    try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/login-account`, payload);
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}

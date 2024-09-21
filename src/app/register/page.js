@@ -6,7 +6,7 @@ import AuthLayout from "@/components/AuthLayout";
 import { useState } from "react";
 import Link from "next/link";
 import Input from "@/components/Input";
-import { validateEmail } from "@/services/api";
+import { validateEmail } from "@/services/authentication/api";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { SET_USER_DATA } from "@/reducers/usersSlice";
@@ -17,6 +17,7 @@ export default function Register() {
     const [errorNames, setErrorNames] = useState(false);
     const [errorEmail, setEmailError] = useState(false);
     const [errorPassword, setPasswordError] = useState(false);
+    const [errorDomain, setDomainError] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -44,12 +45,19 @@ export default function Register() {
             setPasswordError(false)
         }
 
-        if (data.fullNames !== '' && data.email !== "" && data.password !== "") {
+        if (data.domain === '') {
+            setDomainError(true)
+        }
+        else {
+            setDomainError(false);
+        }
+
+        if (data.fullNames !== '' && data.email !== "" && data.password !== "" && data.domain !== "") {
             const result = await validateEmail({ email: data.email });
             toast.success(result.message);
 
-            if (result.message) {
-                const payload = { name: data.fullNames, email: data.email, password: data.password };
+            if (result.status) {
+                const payload = { name: data.fullNames, email: data.email, password: data.password, orgDomain: data.domain };
                 dispatch(SET_USER_DATA(payload));
                 router.push('/register/verify-account')
             }
@@ -91,7 +99,7 @@ export default function Register() {
                                     variant="w-full"
                                     type="email"
                                     placeholder="youremail@gmail.com"
-                                    label="Email Address"
+                                    label="Work Email Address"
                                     labelClass="text-woorkDGrey font-bold"
                                     errors={errorEmail}
                                 />}
@@ -110,6 +118,22 @@ export default function Register() {
                                     label="Password"
                                     labelClass="text-woorkDGrey font-bold"
                                     errors={errorPassword}
+                                />}
+                            />
+
+                            <Controller
+                                name="domain"
+                                control={control}
+                                defaultValue=""
+                                render={({ field }) => <Input
+                                    {...field}
+                                    name="domain"
+                                    variant="w-full"
+                                    type="text"
+                                    placeholder="organisation's domain name"
+                                    label="Organisation Domain Name"
+                                    labelClass="text-woorkDGrey font-bold"
+                                    errors={errorDomain}
                                 />}
                             />
 

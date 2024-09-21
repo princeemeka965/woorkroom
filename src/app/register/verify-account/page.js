@@ -1,7 +1,7 @@
 "use client";
 
 import AuthLayout from "@/components/AuthLayout";
-import { createAccount, verifyOTP } from "@/services/api";
+import { createAccount, verifyOTP } from "@/services/authentication/api";
 import { Button } from "@material-tailwind/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -18,10 +18,12 @@ export default function VerifyAccount() {
     const handleSubmit = async () => {
         const response = await verifyOTP({ email: userDetails.user.email, token: otp });
 
-        if (response.status === 200) {
+        console.log(response)
+
+        if (response.status) {
             const account_creation = await createAccount(userDetails.user);
 
-            if (account_creation.status === 200) {
+            if (account_creation.status) {
                 toast.success(account_creation.message);
                // router.push('/dashboard')
             }
@@ -30,7 +32,7 @@ export default function VerifyAccount() {
             }
         }
         else {
-            toast.error(response.response.data.message)
+           // toast.error(response.response.data.message)
         }
     };
 

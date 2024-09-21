@@ -6,13 +6,15 @@ import { useForm, Controller } from 'react-hook-form';
 import { useState } from "react";
 import Link from "next/link";
 import AuthLayout from "@/components/AuthLayout";
+import { loginAccount } from "@/services/authentication/api";
+import { toast } from "react-toastify";
 
 export default function Home() {
   const { control, handleSubmit } = useForm();
   const [errorEmail, setEmailError] = useState(false);
   const [errorPassword, setPasswordError] = useState(false);
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     if (data.email === '') {
       setEmailError(true);
     }
@@ -26,6 +28,19 @@ export default function Home() {
     else {
       setPasswordError(false)
     }
+
+    if (data.password !== '' && data.email !== "") {
+      const result = await loginAccount({password: data.password, email: data.email});
+      toast.success(result.message);
+
+      if (result.status) {
+        console.log(result.lynchpin);
+       /* const payload = { name: data.fullNames, email: data.email, password: data.password, orgDomain: data.domain };
+        dispatch(SET_USER_DATA(payload));
+        router.push('/register/verify-account') */
+      }
+    }
+
   }
 
   return (
