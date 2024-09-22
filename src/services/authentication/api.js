@@ -1,5 +1,14 @@
 import axios from "axios"
 
+export const lynchpinValidate = async (payload) => {
+    try {
+        const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/users/refresh_lynchpin`, payload);
+        return response.data;
+    } catch (error) {
+        return error
+    }
+}
+
 export const validateEmail = async (payload) => {
     try {
         const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}/email/send-otp`, payload);
