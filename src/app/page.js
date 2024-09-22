@@ -8,11 +8,20 @@ import Link from "next/link";
 import AuthLayout from "@/components/AuthLayout";
 import { loginAccount } from "@/services/authentication/api";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { SET_USER_DATA } from "@/reducers/usersSlice";
+import { useUser } from "@/helpers/lynchpinValidator";
 
 export default function Home() {
   const { control, handleSubmit } = useForm();
   const [errorEmail, setEmailError] = useState(false);
   const [errorPassword, setPasswordError] = useState(false);
+
+  const dispatch = useDispatch();
+
+  const { user, isToken } = useUser();
+
+  console.log(user);
 
   const onSubmit = async(data) => {
     if (data.email === '') {
@@ -31,18 +40,16 @@ export default function Home() {
 
     if (data.password !== '' && data.email !== "") {
       const result = await loginAccount({password: data.password, email: data.email});
-      toast.success(result.message);
 
       if (result.status) {
-        console.log(result.lynchpin);
-       /* const payload = { name: data.fullNames, email: data.email, password: data.password, orgDomain: data.domain };
-        dispatch(SET_USER_DATA(payload));
-        router.push('/register/verify-account') */
+        toast.success(result.message);
+        localStorage.setItem('lynchpin', result.lynchpin);
+        dispatch(SET_USER_DATA(result.userData));
       }
     }
 
   }
-
+  
   return (
     <div className="w-full max-h-screen flex">
       <AuthLayout />

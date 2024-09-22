@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from "react-redux";
 import store from "@/store";
+import { LynchpinProvider } from "@/helpers/lynchpinValidator";
 
 const inter = Nunito_Sans({ subsets: ["latin"] });
 
@@ -24,19 +25,21 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
         <Provider store={store}>
-          {children}
-          <ToastContainer
-            position="top-right"
-            autoClose={5000}
-            hideProgressBar
-            newestOnTop={false}
-            closeOnClick={false}
-            rtl={false}
-            pauseOnFocusLoss
-            draggable={false}
-            pauseOnHover
-            theme="colored"
-          />
+          <LynchpinProvider>
+            {children}
+            <ToastContainer
+              position="top-right"
+              autoClose={5000}
+              hideProgressBar
+              newestOnTop={false}
+              closeOnClick={false}
+              rtl={false}
+              pauseOnFocusLoss
+              draggable={false}
+              pauseOnHover
+              theme="colored"
+            />
+          </LynchpinProvider>
         </Provider>
       </body>
     </html>
