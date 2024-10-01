@@ -2,7 +2,6 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import AuthLayout from "@/components/AuthLayout";
-import { useUser } from "@/helpers/lynchpinValidator";
 import { useRouter } from "next/navigation";
 import Input from '@/components/Input';
 import { useState } from 'react';
