@@ -5,8 +5,8 @@ import "./globals.css";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { Provider } from "react-redux";
-import store from "@/store";
-import { LynchpinProvider } from "@/helpers/lynchpinValidator";
+import store, { persistor } from "@/store";
+import { PersistGate } from "redux-persist/integration/react";
 
 const inter = Nunito_Sans({ subsets: ["latin"] });
 
@@ -25,7 +25,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className}>
         <Provider store={store}>
-          <LynchpinProvider>
+          <PersistGate loading={null} persistor={persistor}>
             {children}
             <ToastContainer
               position="top-right"
@@ -39,7 +39,7 @@ export default function RootLayout({ children }) {
               pauseOnHover
               theme="colored"
             />
-          </LynchpinProvider>
+          </PersistGate>
         </Provider>
       </body>
     </html>

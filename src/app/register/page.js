@@ -17,7 +17,6 @@ export default function Register() {
     const [errorNames, setErrorNames] = useState(false);
     const [errorEmail, setEmailError] = useState(false);
     const [errorPassword, setPasswordError] = useState(false);
-    const [errorDomain, setDomainError] = useState(false);
 
     const dispatch = useDispatch();
 
@@ -45,13 +44,6 @@ export default function Register() {
             setPasswordError(false)
         }
 
-        if (data.domain === '') {
-            setDomainError(true)
-        }
-        else {
-            setDomainError(false);
-        }
-
         if (data.fullNames !== '' && data.email !== "" && data.password !== "" && data.domain !== "") {
             const result = await validateEmail({ email: data.email });
             toast.success(result.message);
@@ -64,6 +56,7 @@ export default function Register() {
         }
     }
 
+    
     return (
         <>
             <div className="w-full max-h-screen flex">
@@ -124,7 +117,7 @@ export default function Register() {
                             <Controller
                                 name="domain"
                                 control={control}
-                                defaultValue=""
+                                defaultValue="Cloudenly"
                                 render={({ field }) => <Input
                                     {...field}
                                     name="domain"
@@ -133,7 +126,8 @@ export default function Register() {
                                     placeholder="organisation's domain name"
                                     label="Organisation Domain Name"
                                     labelClass="text-woorkDGrey font-bold"
-                                    errors={errorDomain}
+                                    value="Cloudenly"
+                                    disabled={true}
                                 />}
                             />
 

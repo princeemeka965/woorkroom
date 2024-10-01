@@ -10,18 +10,20 @@ import { loginAccount } from "@/services/authentication/api";
 import { toast } from "react-toastify";
 import { useDispatch, useSelector } from "react-redux";
 import { SET_USER_DATA } from "@/reducers/usersSlice";
-import { useUser } from "@/helpers/lynchpinValidator";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const { control, handleSubmit } = useForm();
   const [errorEmail, setEmailError] = useState(false);
   const [errorPassword, setPasswordError] = useState(false);
 
-  const dispatch = useDispatch();
-
-  const { user, isToken } = useUser();
+  const user = useSelector((state) => state.userData.user);
 
   console.log(user);
+
+  const dispatch = useDispatch();
+
+  const router = useRouter();
 
   const onSubmit = async(data) => {
     if (data.email === '') {
@@ -43,13 +45,14 @@ export default function Home() {
 
       if (result.status) {
         toast.success(result.message);
-        localStorage.setItem('lynchpin', result.lynchpin);
         dispatch(SET_USER_DATA(result.userData));
+        router.push('/meeting');
       }
     }
 
   }
-  
+
+
   return (
     <div className="w-full max-h-screen flex">
       <AuthLayout />
